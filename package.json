@@ -1,12 +1,13 @@
 {
   "name": "babel_webpack_starter",
   "version": "1.0.0",
-  "description": "Starter pack for compiling ES6+ apps to ES5",
+  "description": "Starter pack for compiling ES6+ applications to ES5",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --output-public-path=/build/  --mode development --progress --open --hot",
-    "build": "webpack --mode production --progress"
+    "build": "webpack --mode production --progress",
+    "json:server": "json-server --watch api/db.json"
   },
   "author": "Deepak Guptha",
   "license": "MIT",
@@ -19,5 +20,8 @@
     "webpack": "^4.16.1",
     "webpack-cli": "^3.0.8",
     "webpack-dev-server": "^3.1.10"
+  },
+  "dependencies": {
+    "json-server": "^0.15.1"
   }
 }
