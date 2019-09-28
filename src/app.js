@@ -10,6 +10,9 @@ document.querySelector(".post-submit").addEventListener("click", submitPost);
 // Listen for Delete Post
 document.querySelector("#posts").addEventListener("click", deletePost);
 
+// Listen for Edit Post
+document.querySelector("#posts").addEventListener("click", enableEdit);
+
 // Get Posts
 function getPosts() {
   http
@@ -53,5 +56,37 @@ function deletePost(e) {
         getPosts();
       })
       .catch(err => console.log(err));
+  }
+}
+
+// Edit Post
+function enableEdit(e) {
+  e.preventDefault();
+  if (e.target.parentElement.classList.contains("edit")) {
+    const id = e.target.parentElement.dataset.id;
+    const title =
+      e.target.parentElement.previousElementSibling.previousElementSibling
+        .textContent;
+    const body = e.target.parentElement.previousElementSibling.textContent;
+
+    console.log(title);
+    console.log(body);
+
+    const data = {
+      id,
+      title,
+      body
+    };
+
+    // Fill the form with the current post 
+    ui.fillForm(data);
+
+    // http
+    //   .put(`http://localhost:3000/posts/${id}`)
+    //   .then(data => {
+    //     ui.showAlert("Post Removed", "alert alert-success");
+    //     getPosts();
+    //   })
+    //   .catch(err => console.log(err));
   }
 }

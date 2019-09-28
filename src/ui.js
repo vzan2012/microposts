@@ -8,6 +8,7 @@ class UI {
     this.forState = "add";
   }
 
+  // Show all Posts
   showPosts(posts) {
     let output = "";
 
@@ -43,7 +44,7 @@ class UI {
     // Insert alert div
     container.insertBefore(div, posts);
 
-    // Set Timeout 
+    // Set Timeout
     setTimeout(() => {
       this.clearAlert();
     }, 3000);
@@ -60,6 +61,13 @@ class UI {
   clearFields() {
     this.titleInput.value = "";
     this.titleBody.value = "";
+  }
+
+  // Fill the form to edit
+  fillForm(data) {
+    this.titleInput.value = data.title;
+    this.bodyInput.value = data.body;
+    this.idInput.value = data.id;
   }
 }
 
