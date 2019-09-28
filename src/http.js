@@ -18,12 +18,9 @@ class EasyHTTP {
     const response = await fetch(url, {
       method: "POST",
       headers: {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json"
-        },
-        body: JSON.stringify(data)
-      }
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(data)
     });
 
     const respData = await response.json();
