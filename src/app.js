@@ -13,6 +13,9 @@ document.querySelector("#posts").addEventListener("click", deletePost);
 // Listen for Edit Post
 document.querySelector("#posts").addEventListener("click", enableEdit);
 
+// Listen for Cancel Button
+document.querySelector(".card-form").addEventListener("click", cancelEdit);
+
 // Get Posts
 function getPosts() {
   http
@@ -25,20 +28,40 @@ function getPosts() {
 function submitPost(e) {
   const title = document.querySelector("#title").value;
   const body = document.querySelector("#body").value;
+  const id = document.querySelector("#id").value;
 
   const data = {
     title,
     body
   };
 
-  http
-    .post("http://localhost:3000/posts", data)
-    .then(data => {
-      ui.showAlert("Post Added", "alert alert-success");
-      ui.clearFields();
-      getPosts();
-    })
-    .catch(err => console.log(err));
+  // Validate Input Fields
+  if (title === "" || body === "") {
+    ui.showAlert("Please fill all the fields", "alert alert-danger");
+  } else {
+    // Check for the ID
+    if (id === "") {
+      // Create Posts
+      http
+        .post("http://localhost:3000/posts", data)
+        .then(data => {
+          ui.showAlert("Post Added", "alert alert-success");
+          ui.clearFields();
+          getPosts();
+        })
+        .catch(err => console.log(err));
+    } else {
+      // Update Posts
+      http
+        .put(`http://localhost:3000/posts/${id}`, data)
+        .then(data => {
+          ui.showAlert("Post Updated", "alert alert-success");
+          ui.changeFormState("add");
+          getPosts();
+        })
+        .catch(err => console.log(err));
+    }
+  }
 
   e.preventDefault();
 }
@@ -69,24 +92,22 @@ function enableEdit(e) {
         .textContent;
     const body = e.target.parentElement.previousElementSibling.textContent;
 
-    console.log(title);
-    console.log(body);
-
     const data = {
       id,
       title,
       body
     };
 
-    // Fill the form with the current post 
+    // Fill the form with the current post
     ui.fillForm(data);
-
-    // http
-    //   .put(`http://localhost:3000/posts/${id}`)
-    //   .then(data => {
-    //     ui.showAlert("Post Removed", "alert alert-success");
-    //     getPosts();
-    //   })
-    //   .catch(err => console.log(err));
   }
+}
+
+// Cancel Edit State
+function cancelEdit(e) {
+  if (e.target.classList.contains("post-cancel")) {
+    ui.changeFormState("add");
+  }
+
+  e.preventDefault();
 }
